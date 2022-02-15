@@ -14,6 +14,8 @@ variables:
   XT_OP_TEE_FLAVOUR: "generic_dt"
   XT_GENERIC_DOMU_TAG: ""
   XT_DOMA_TAG: ""
+  XEN_URL: "git://git@gitpct.epam.com/rec-inv/xen.git;protocol=ssh;branch=v4.16rc_cr7"
+
 common_data:
   # Sources used by all yocto-based domains
   sources: &COMMON_SOURCES
@@ -160,6 +162,12 @@ components:
         # Do not install kernel image to rootfs to decrease initrd size
         - ["RDEPENDS_${KERNEL_PACKAGE_NAME}-base", ""]
 
+        # get xen customized under cr7
+        - [XEN_URL_pn-xen-tools, "%{XEN_URL}"]
+        - [XEN_URL_pn-xen, "%{XEN_URL}"]
+        - [XEN_REL_pn-xen, "4.16"]
+        - [XEN_REL_pn-xen-tools, "4.16"]
+
       layers:
         - "../meta-virtualization"
         - "../meta-openembedded/meta-oe"
@@ -212,6 +220,12 @@ components:
         # take dedicated cr7 kernek
         - [RENESAS_BSP_URL_pn-linux-renesas,  "git://git@gitpct.epam.com/rec-inv/linux.git;protocol=ssh"]
         - [BRANCH_pn-linux-renesas, "v5.10_cr7_aosbox"]
+
+        # get xen customized under cr7
+        - [XEN_URL_pn-xen-tools, "%{XEN_URL}"]
+        - [XEN_URL_pn-xen, "%{XEN_URL}"]
+        - [XEN_REL_pn-xen, "4.16"]
+        - [XEN_REL_pn-xen-tools, "4.16"]
 
       build_target: core-image-minimal
       #core-image-weston
