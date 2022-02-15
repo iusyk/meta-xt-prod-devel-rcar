@@ -209,6 +209,10 @@ components:
         # Machine feature 'multimedia' is used to enable (VSP in domd) and (LOSSY build option in ATF)
         - [MACHINE_FEATURES_append, " multimedia"]
 
+        # take dedicated cr7 kernek
+        - [RENESAS_BSP_URL_pn-linux-renesas,  "git://git@gitpct.epam.com/rec-inv/linux.git;protocol=ssh"]
+        - [BRANCH_pn-linux-renesas, "v5.10_cr7_aosbox"]
+
       build_target: core-image-minimal
       #core-image-weston
       layers:
