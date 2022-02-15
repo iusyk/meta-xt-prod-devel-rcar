@@ -20,6 +20,10 @@ do_install_append() {
 
     # Call doma-set-root script
     sed -i 's/backend-ready.*/domd.service/' ${D}${systemd_unitdir}/system/doma.service
+    # remove the dependency on sndbe and display backend - sound belongs to android, 
+    # display backend does not exists
+    sed -r 's/backend-ready@sndbe.service//' ${D}${systemd_unitdir}/system/doma.service
+    sed -r 's/backend-ready@displbe.service//' ${D}${systemd_unitdir}/system/doma.service
     echo "[Service]" >> ${D}${systemd_unitdir}/system/doma.service
     echo "ExecStartPre=${libdir}/xen/bin/doma-set-root" >> ${D}${systemd_unitdir}/system/doma.service
 }
