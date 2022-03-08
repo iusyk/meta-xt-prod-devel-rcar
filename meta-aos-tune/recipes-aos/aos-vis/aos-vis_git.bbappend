@@ -5,14 +5,12 @@ SRC_URI_append = "\
     file://aos_vis.cfg \
 "
 
-# Use renesassimulatoradapter if nothing was specified at this point
-AOS_VIS_PLUGINS ?= "\
+AOS_VIS_PLUGINS ?= " \
+    vinadapter \
+    boardmodeladapter \
+    usersadapter \
+    telemetryemulatoradapter \
     renesassimulatoradapter \
-"
-
-# storageadapter is required for proper work of any data provider
-AOS_VIS_PLUGINS += "\
-    storageadapter \
 "
 
 inherit systemd
@@ -36,7 +34,7 @@ do_prepare_adapters() {
     echo 'import (' >> ${file}
 
     for plugin in ${AOS_VIS_PLUGINS}; do
-        echo "\t_ \"aos_vis/plugins/${plugin}\"" >> ${file}
+        echo "\t_ \"${GO_IMPORT}/plugins/${plugin}\"" >> ${file}
     done
 
     echo ')' >> ${file}
@@ -68,7 +66,7 @@ do_install_append() {
         fi
 
         if ! grep -q 'ExecStartPre=/bin/sleep 1' ${WORKDIR}/aos-vis.service ; then
-            sed -i -e '/ExecStart/i ExecStartPre=/bin/sleep 1' ${WORKDIR}/aos-vis.service
+            sed -i -e '/ExecStart=/i ExecStartPre=/bin/sleep 1' ${WORKDIR}/aos-vis.service
         fi
     fi
 
